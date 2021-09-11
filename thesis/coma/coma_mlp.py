@@ -13,7 +13,7 @@ import pickle
 import wandb
 
 
-class ComaDataAugmentation:
+class ComaMLP:
     def __init__(self, n_agent, n_env, max_step, gamma, lambda_,
                  actor_hidden_size, global_encode_size, local_encode_size,
                  fc1_size, fc2_size, actor_lr, critic_lr, log_to_wandb=False):
