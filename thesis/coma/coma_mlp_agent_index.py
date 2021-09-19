@@ -1,3 +1,4 @@
+from base import IComa
 from ..learner.coma_learner import ComaLearner
 from ..runner.cooperative_navigation_runner_mlp import MLPCooperativeNavigationRunner
 from ..model.actor.mlp_actor import MLPActor
@@ -13,7 +14,7 @@ import pickle
 import wandb
 
 
-class ComaMLPAgentIndex:
+class ComaMLPAgentIndex(IComa):
     def __init__(self, n_agent, n_env, max_step, gamma, lambda_,
                  actor_hidden_size, fc1_size, fc2_size,
                  actor_lr, critic_lr, log_to_wandb=False):
@@ -98,3 +99,10 @@ class ComaMLPAgentIndex:
 
     def get_log(self):
         return self.logger.get_log()
+
+    def load_network(self, actor_state, critic_state):
+        self.actor.load_state_dict(actor_state)
+        self.critic.load_state_dict(critic_state)
+
+    def get_network(self):
+        return self.actor.state_dict(), self.critic.state_dict()
