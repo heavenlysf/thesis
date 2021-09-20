@@ -1,4 +1,4 @@
-from base import IComa
+from .base import IComa
 from ..learner.coma_data_augment_learner import ComaDataAugmentLearner
 from ..runner.cooperative_navigation_runner_mlp import MLPCooperativeNavigationRunner
 from ..model.actor.mlp_actor import MLPActor
