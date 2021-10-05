@@ -18,12 +18,13 @@ class ComaGCN(IComa):
     def __init__(self, n_agent, n_env, max_step, gamma, lambda_,
                  actor_hidden_size, gcn_n_layer, gcn_hidden_size,
                  gcn_pool_function, global_encode_size, local_encode_size,
-                 fc1_size, fc2_size, actor_lr, critic_lr, log_to_wandb=False):
+                 fc1_size, fc2_size, actor_lr, critic_lr, grad_norm_clip, log_to_wandb=False):
         self.n_agent = n_agent
         self.n_env = n_env
         self.max_step = max_step
         self.gamma = gamma
         self.lambda_ = lambda_
+        self.grad_norm_clip = grad_norm_clip
         self.log_to_wandb = log_to_wandb
 
         self.n_action = 5
@@ -49,7 +50,8 @@ class ComaGCN(IComa):
             learner = ComaLearner(self.logger, self.actor, self.critic, self.actor_optimizer,
                                   self.critic_optimizer, self.n_agent, self.n_env, self.max_step,
                                   self.n_action, self.obs_size, observations, actions, rewards, probs,
-                                  entropys, last_observation, last_action, self.gamma, self.lambda_)
+                                  entropys, last_observation, last_action, self.gamma, self.lambda_,
+                                  self.grad_norm_clip)
             (log_reward, log_q_taken, log_critic_loss, log_actor_loss, log_actor_loss_amount,
              log_entropy, log_residual_variance) = learner.train()
 

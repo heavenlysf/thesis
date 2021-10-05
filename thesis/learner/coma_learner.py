@@ -9,7 +9,7 @@ class ComaLearner(ILearner):
     def __init__(self, logger, actor, critic, actor_optimizer, critic_optimizer,
                  n_agent, n_env, max_step, n_action, obs_size,
                  observations, actions, rewards, probs, entropys, last_observation, last_action,
-                 gamma, lambda_):
+                 gamma, lambda_, grad_norm_clip):
         self.logger = logger
         self.actor = actor
         self.critic = critic
@@ -29,6 +29,7 @@ class ComaLearner(ILearner):
         self.last_action = last_action
         self.gamma = gamma
         self.lambda_ = lambda_
+        self.grad_norm_clip = grad_norm_clip
 
     def train(self):
         # get values
@@ -91,7 +92,7 @@ class ComaLearner(ILearner):
 
             self.critic_optimizer.zero_grad()
             critic_loss.backward()
-            torch.nn.utils.clip_grad_norm_(self.critic.parameters(), max_norm=1.0, norm_type=2)
+            torch.nn.utils.clip_grad_norm_(self.critic.parameters(), max_norm=self.grad_norm_clip, norm_type=2)
             self.critic_optimizer.step()
 
             residual_variance_log_1.append((return_t - q_t_taken.detach()))
@@ -117,7 +118,7 @@ class ComaLearner(ILearner):
 
         self.actor_optimizer.zero_grad()
         actor_loss.backward()
-        torch.nn.utils.clip_grad_norm_(self.actor.parameters(), max_norm=1.0, norm_type=2)
+        torch.nn.utils.clip_grad_norm_(self.actor.parameters(), max_norm=self.grad_norm_clip, norm_type=2)
         self.actor_optimizer.step()
 
         # calculate residual variance
