@@ -1,5 +1,5 @@
 from .base import IRunner
-from thesis.pettingzoo.mpe import simple_spread_v2
+from thesis.env.pettingzoo import simple_spread_v2
 
 import torch
 from torch.distributions import Categorical

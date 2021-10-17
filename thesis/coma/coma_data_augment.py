@@ -3,7 +3,7 @@ from ..learner.coma_data_augment_learner import ComaDataAugmentLearner
 from ..runner.cooperative_navigation_runner_mlp import MLPCooperativeNavigationRunner
 from ..model.actor.mlp_actor import MLPActor
 from ..model.critic.mlp_critic import MLPCritic
-from thesis.pettingzoo.mpe import simple_spread_v2
+from ..env.pettingzoo.mpe import simple_spread_v2
 from thesis.logger import Logger
 
 import time
